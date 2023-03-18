@@ -21,9 +21,16 @@ def ra_cli() -> None:
 
 @ra_cli.command(name="list_all_csv")
 def list_all_csv() -> None:
-    click.echo("list_all_csv")
+    click.echo("CMD: list_all_csv")
+    csv_files = []
     for root, dirs, files in os.walk(path()):
+        for index, val in enumerate(files):
+            if files[index].rsplit(".", 1)[1] == "csv":
+                csv_files.append(files[index])
         print(f"root: {root} dirs: {dirs} files: {files} ")
+
+    csv_files = tuple(csv_files)
+    print(csv_files)
 
 
 def main_cli():
