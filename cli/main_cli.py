@@ -1,5 +1,6 @@
 import os
 import click
+from click_shell import shell
 
 from unary_operators.select import Select
 
@@ -23,7 +24,7 @@ def initialize() -> None:
     os.makedirs(path(), exist_ok=True)
 
 
-@click.group(cls=catch_Exceptions)
+@shell(prompt="ra-cli > ", intro="Starting my CLI......")
 def ra_cli() -> None:
     pass
 
@@ -47,10 +48,21 @@ def list_all_csv() -> tuple:
 @click.pass_context
 def select_columns_from_table(ctx, columns_and_tablename) -> None:
     columns_and_tablename = list(columns_and_tablename)
+    print(f"columns_and_tablename: {columns_and_tablename}")
     select = Select(columns_and_tablename, path, ctx.invoke(list_all_csv))
     if len(select.show()) <= 0:
         raise Exception("SQL error")
     click.echo(select.data())
+
+
+@ra_cli.command(name="clear")
+def clear() -> None:
+    click.clear()
+
+
+@ra_cli.command(name="exit")
+def stop() -> None:
+    os._exit(0)
 
 
 def main_cli() -> None:
