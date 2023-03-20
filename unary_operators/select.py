@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+from unary_operators.project import Project
 
 
 class Select:
@@ -9,6 +10,7 @@ class Select:
         self.list_all_csv = list_all_csv
         self.columns = []
         self.tablename = []
+        self.condition = []
         self.columns_and_tablename_filter()
 
     def show(self) -> list:
@@ -23,10 +25,15 @@ class Select:
                 self.columns_and_tablename[index] = re.sub(
                     r"^[^_\w]+|[^_\w]+$", "", self.columns_and_tablename[index]
                 ).strip()
+
             if val == "from":
-                self.tablename.append(self.columns_and_tablename[-1])
-                break
-            self.columns.append(self.columns_and_tablename[index])
+                index_of_from = index
+                self.columns = self.columns_and_tablename[:index_of_from]
+                self.tablename.append(self.columns_and_tablename[index+1])
+            if val == 'where':
+                self.condition = self.columns_and_tablename[index+1:]
+                
+                
         print(f"columns: {self.columns}")
         print(f"tablename: {self.tablename}")
 
@@ -38,8 +45,14 @@ class Select:
 
         df = pd.read_csv(self.path + f"\{csv_file[0]}")
 
-        if self.columns[0] == "*":
+        if self.columns[0] == "*" and len(self.condition) <= 0:
             return df
+        elif self.columns[0] == '*' and len(self.condition) > 0:
+            project = Project(df, self.condition)
+            project.data()
+            #project.show()
+
         else:
             df = df.loc[:, [i for i in self.columns]]
-            return df
+            project = Project(df, self.condition)
+            return project.data()
