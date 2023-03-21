@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-click = "*"
 click-shell = "*"
+click = "*"
 
 [dev-packages]
 

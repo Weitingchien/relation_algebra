@@ -46,13 +46,15 @@ class Select:
         df = pd.read_csv(self.path + f"\{csv_file[0]}")
 
         if self.columns[0] == "*" and len(self.condition) <= 0:
+            print('select(1)')
             return df
         elif self.columns[0] == '*' and len(self.condition) > 0:
+            print('select(2)')
             project = Project(df, self.condition)
             project.data()
-            #project.show()
 
         else:
-            df = df.loc[:, [i for i in self.columns]]
-            project = Project(df, self.condition)
-            return project.data()
+            print('select(3)')
+            df_filter = df.loc[:, [i for i in self.columns]]
+            project = Project(df, self.condition, df_filter)
+            project.data()
