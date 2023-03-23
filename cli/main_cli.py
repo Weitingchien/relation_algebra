@@ -65,7 +65,7 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
 @click.pass_context
 def alter_table_rename_columns(ctx, columns_and_tablename) -> None:
     rename = Rename(columns_and_tablename, path, ctx.invoke(list_all_csv))
-    rename.alter()
+    rename.alter_table()
     
 
 

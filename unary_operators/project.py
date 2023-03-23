@@ -27,7 +27,7 @@ class Project:
         for index, val in enumerate(self.condition):
             if val == '>' or val == '<' or val == '>=' or val == '<=' or val == '==' or val == '!=':
                 self.number_of_comparison_operators += 1
-            if val == 'AND' or val == 'OR':
+            if val == 'and' or val == 'or':
                 self.number_of_logical_operators += 1
 
         self.max_number_of_comparison_operators = self.number_of_comparison_operators
@@ -58,7 +58,7 @@ class Project:
         self.condition = self.condition[3:]
 
         for index, val in enumerate(self.condition):
-            if val == 'AND' or val == 'OR':
+            if val == 'and' or val == 'or':
                 self.logical_operator.append(self.condition[index])
                 self.condition.pop(0)
                 self.number_of_logical_operators -= 1
@@ -73,7 +73,7 @@ class Project:
         print(f'logical_operator: {self.logical_operator}')
         print(f'columns: {self.columns}')
         print(f'value: {self.value}')
-        if(self.logical_operator[0] == 'AND'):
+        if(self.logical_operator[0] == 'and'):
             self.temp_index.clear()
 
         for index, row in self.df_backup.iterrows():
@@ -97,9 +97,9 @@ class Project:
                 click.echo(result)
 
         if self.current_iteration != self.max_number_of_logical_operators:
-            if self.logical_operator[0] == 'AND':
+            if self.logical_operator[0] == 'and':
                 self.df_backup = self.df_backup.iloc[self.temp_index]
-            elif self.logical_operator[0] == 'OR':
+            elif self.logical_operator[0] == 'or':
                 self.df_backup = self.df
             self.current_iteration += 1
             self.data()
