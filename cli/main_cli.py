@@ -4,6 +4,8 @@ import pandas as pd
 from click_shell import shell
 
 from unary_operators.select import Select
+from unary_operators.rename import Rename
+
 
 
 class catch_Exceptions(click.Group):
@@ -43,7 +45,7 @@ def list_all_csv() -> tuple:
     return csv_files
 
 
-@ra_cli.command(name="select")
+@ra_cli.command(name='select')
 @click.argument("columns_and_tablename", nargs=-1, type=str)  # nargs=-1 支援不定參數
 @click.pass_context
 def select_columns_from_table(ctx, columns_and_tablename) -> None:
@@ -57,6 +59,16 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
     result = select.data()
     if(isinstance(result, pd.DataFrame)):
         click.echo(result)
+
+@ra_cli.command(name='alter')
+@click.argument('columns_and_tablename', nargs=-1, type=str)
+@click.pass_context
+def alter_table_rename_columns(ctx, columns_and_tablename) -> None:
+    rename = Rename(columns_and_tablename, path, ctx.invoke(list_all_csv))
+    rename.alter()
+    
+
+
 
 @ra_cli.command(name="clear")
 def clear() -> None:

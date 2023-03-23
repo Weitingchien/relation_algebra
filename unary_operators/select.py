@@ -19,6 +19,7 @@ class Select:
         return self.columns_and_tablename
 
     def columns_and_tablename_filter(self) -> None:
+        self.columns_and_tablename = [i.lower() for i in self.columns_and_tablename]
         for index, val in enumerate(self.columns_and_tablename):
             # 去除字串前後的特殊字元
             if self.columns_and_tablename[index] != "*":
