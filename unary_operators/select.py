@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+from binary_operators.set_union import Union
 from unary_operators.project import Project
 
 
@@ -30,11 +31,10 @@ class Select:
             if val == "from":
                 index_of_from = index
                 self.columns = self.columns_and_tablename[:index_of_from]
-                self.tablename.append(self.columns_and_tablename[index+1])
-            if val == 'where':
-                self.condition = self.columns_and_tablename[index+1:]
-                
-                
+                self.tablename.append(self.columns_and_tablename[index + 1])
+            if val == "where":
+                self.condition = self.columns_and_tablename[index + 1 :]
+
         print(f"columns: {self.columns}")
         print(f"tablename: {self.tablename}")
 
@@ -47,15 +47,23 @@ class Select:
         df = pd.read_csv(self.path + f"\{csv_file[0]}")
 
         if self.columns[0] == "*" and len(self.condition) <= 0:
-            print('select(1)')
+            print("select(1)")
             return df
-        elif self.columns[0] == '*' and len(self.condition) > 0:
-            print('select(2)')
+
+        elif self.columns[0] == "*" and len(self.condition) > 0:
+            print("select(2)")
             project = Project(df, self.condition)
             project.data()
 
+        elif self.columns[0] != "*" and len(self.condition) <= 0:
+            print("select(3)")
+            df_filter = df.loc[:, [i for i in self.columns]]
+            union = Union(df_filter)
+            union.data()
+            return df_filter
+
         else:
-            print('select(3)')
+            print("select(4)")
             df_filter = df.loc[:, [i for i in self.columns]]
             project = Project(df, self.condition, df_filter)
             project.data()
