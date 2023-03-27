@@ -1,27 +1,17 @@
 import pandas as pd
 from unary_operators.select import Select
+from binary_operators.set_union import Union
 
 
-# 使用聯集來取出台灣與中國加起來全部的產品: dataset: products_china.csv, products_taiwan.csv
-class Union:
+class Difference(Union):
     def __init__(self, columns_and_tablename, path, list_all_csv) -> None:
-        self.path = path
-        self.list_all_csv = list_all_csv
-        self.columns_and_tablename = columns_and_tablename
-        self.temp_first_table = []
-        self.temp_second_table = []
-        self.columns = []
-        self.df_first_table = None
-        self.df_second_table = None
-        self.set_first_table = set()
-        self.set_second_table = set()
-        self.classifier()
-    
+        super().__init__(columns_and_tablename, path, list_all_csv)
+
     def classifier(self):
         for index, val in enumerate(self.columns_and_tablename):
             if val == 'from':
                 self.columns = self.columns_and_tablename[:index]
-            elif val == "union":
+            elif val == "except":
                 self.temp_first_table = self.columns_and_tablename[:index]
                 self.temp_second_table = self.columns_and_tablename[index + 2 :]
                 print(f"temp_first_table: {self.temp_first_table}")
@@ -29,7 +19,7 @@ class Union:
                 break
 
     def data(self):
-        print(f"Union: {self.columns_and_tablename}")
+        print(f"Difference: {self.columns_and_tablename}")
         print(f'path: {self.path}')
 
         for index in range(2):
@@ -45,6 +35,5 @@ class Union:
         for i in self.df_second_table[self.df_second_table.columns[0]]:
             self.set_second_table.add(i)
         
-        result = self.set_first_table.union(self.set_second_table)
+        result = self.set_first_table.difference(self.set_second_table)
         return pd.DataFrame({self.df_first_table.columns[0]: list(result)})
-        

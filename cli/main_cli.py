@@ -6,6 +6,7 @@ from click_shell import shell
 from unary_operators.select import Select
 from unary_operators.rename import Rename
 from binary_operators.set_union import Union
+from binary_operators.set_difference import Difference
 
 
 
@@ -52,7 +53,7 @@ def list_all_csv() -> tuple:
 def select_columns_from_table(ctx, columns_and_tablename) -> None:
     columns_and_tablename = list(columns_and_tablename)
     print(f"columns_and_tablename: {columns_and_tablename}")
-    
+
     # 關鍵字元轉小寫
     for index, val in enumerate(columns_and_tablename):
         if val in ['TABLE', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION']:
@@ -69,6 +70,11 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
         union = Union(columns_and_tablename, path, ctx.invoke(list_all_csv))
         click.echo(union.data())
         return
+    elif 'except' in columns_and_tablename:
+        print('set_difference')
+        difference = Difference(columns_and_tablename, path, ctx.invoke(list_all_csv))
+        click.echo(difference.data())
+        return  
 
     result = select.data()
     if(isinstance(result, pd.DataFrame)):
