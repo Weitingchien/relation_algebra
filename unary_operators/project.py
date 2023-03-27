@@ -91,10 +91,12 @@ class Project:
                 result = self.df.iloc[self.temp_index]
                 print(f'欄位不用過濾')
                 click.echo(result)
+                return result
             else:
                 print(f'欄位過濾')
                 result = self.df_filter.iloc[self.temp_index]
                 click.echo(result)
+                return result
 
         if self.current_iteration != self.max_number_of_logical_operators:
             if self.logical_operator[0] == 'and':

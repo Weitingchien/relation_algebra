@@ -1,6 +1,5 @@
 import re
 import pandas as pd
-from binary_operators.set_union import Union
 from unary_operators.project import Project
 
 
@@ -14,13 +13,7 @@ class Select:
         self.condition = []
         self.columns_and_tablename_filter()
 
-    def show(self) -> list:
-        if len(self.tablename) < 1:
-            return []
-        return self.columns_and_tablename
-
     def columns_and_tablename_filter(self) -> None:
-        self.columns_and_tablename = [i.lower() for i in self.columns_and_tablename]
         for index, val in enumerate(self.columns_and_tablename):
             # 去除字串前後的特殊字元
             if self.columns_and_tablename[index] != "*":
@@ -53,17 +46,17 @@ class Select:
         elif self.columns[0] == "*" and len(self.condition) > 0:
             print("select(2)")
             project = Project(df, self.condition)
-            project.data()
+            result = project.data()
+            return result
 
         elif self.columns[0] != "*" and len(self.condition) <= 0:
             print("select(3)")
             df_filter = df.loc[:, [i for i in self.columns]]
-            union = Union(df_filter)
-            union.data()
             return df_filter
 
         else:
             print("select(4)")
             df_filter = df.loc[:, [i for i in self.columns]]
             project = Project(df, self.condition, df_filter)
-            project.data()
+            result = project.data()
+            return result

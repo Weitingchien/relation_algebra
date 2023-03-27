@@ -31,8 +31,8 @@ class Rename:
 
         # copilot
         if len(self.old_table_name) < 1 or len(self.new_table_name) < 1:
-
             return
+        
         csv_file = [
             i for i in list(self.list_all_csv) if i == f'{self.old_table_name}.csv'
         ]
@@ -40,7 +40,6 @@ class Rename:
         click.echo(f"Table {self.old_table_name} renamed to {self.new_table_name}.")
 
     def columns_and_tablename_filter(self) -> None:
-        self.columns_and_tablename = [i.lower() for i in self.columns_and_tablename]
         for index, val in enumerate(self.columns_and_tablename):
             # 去除字串前後的特殊字元
             if self.columns_and_tablename[index] != "*":

@@ -5,6 +5,7 @@ from click_shell import shell
 
 from unary_operators.select import Select
 from unary_operators.rename import Rename
+from binary_operators.set_union import Union
 
 
 
@@ -51,11 +52,24 @@ def list_all_csv() -> tuple:
 def select_columns_from_table(ctx, columns_and_tablename) -> None:
     columns_and_tablename = list(columns_and_tablename)
     print(f"columns_and_tablename: {columns_and_tablename}")
+    
+    # 關鍵字元轉小寫
+    for index, val in enumerate(columns_and_tablename):
+        if val in ['TABLE', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION']:
+            columns_and_tablename[index] = val.lower()
+
     select = Select(columns_and_tablename, path, ctx.invoke(list_all_csv))
+    
     """
     if len(select.show()) <= 0:
         raise Exception("SQL error")
     """
+    if 'union' in columns_and_tablename:
+        print('set_union')
+        union = Union(columns_and_tablename, path, ctx.invoke(list_all_csv))
+        click.echo(union.data())
+        return
+
     result = select.data()
     if(isinstance(result, pd.DataFrame)):
         click.echo(result)
