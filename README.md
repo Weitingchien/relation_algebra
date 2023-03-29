@@ -15,11 +15,12 @@ select \* from classroom
 
 ## project
 
-正在新增
+找 room_number 小於 300 且容量大於 30(只顯示 building 和 room_number 欄位): select building, room_number from classroom where room_number < 300 AND capacity > 30
 
 ## rename
 
 修改 column 名稱: alter table classroom rename column building to building_a
+
 修改 table 名稱: alter table classroom rename to classroom_a
 
 ## set_difference
@@ -36,4 +37,4 @@ select P_Name from products_taiwan except select P_Name from products_china
 
 ## cartesian_product
 
-正在新增
+select customers.C_Id, orders.Order_No from customers cross join orders

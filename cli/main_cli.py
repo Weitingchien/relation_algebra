@@ -58,7 +58,7 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
 
     # 關鍵字轉小寫
     for index, val in enumerate(columns_and_tablename):
-        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT']:
+        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT', 'AND', 'OR']:
             columns_and_tablename[index] = val.lower()
 
     select = Select(columns_and_tablename, path, ctx.invoke(list_all_csv))
@@ -102,7 +102,7 @@ def alter_table_rename_columns(ctx, columns_and_tablename) -> None:
     columns_and_tablename = list(columns_and_tablename)
     # 關鍵字轉小寫
     for index, val in enumerate(columns_and_tablename):
-        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT']:
+        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT', 'AND', 'OR']:
             columns_and_tablename[index] = val.lower()
     
     rename = Rename(columns_and_tablename, path, ctx.invoke(list_all_csv))

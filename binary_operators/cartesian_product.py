@@ -58,6 +58,7 @@ class Cartesian(Union):
 
         # 合併兩個csv檔案的欄位名稱
         self.columns_name = self.first_df.columns.tolist() + self.second_df.columns.tolist()
+        print(f'columns_name: {self.columns_name}')
 
         for index, val in enumerate(self.columns_name):
             if index >= (len(self.first_df.columns)):
@@ -66,17 +67,24 @@ class Cartesian(Union):
                 self.columns_name[index] = f'{self.temp_first_table[0]}.{val}'
 
         df = pd.DataFrame(data=temp, columns=self.columns_name)
+        print(f'df: {df}')
 
         filter_columns = [] # 找出int64的欄位(用這欄位來作後面的由小到大排序)
+        print(f'columns: {self.columns}')
 
         for index,val in enumerate(self.columns):
             if df[val].dtype == 'int64':
                 filter_columns.append(val)
 
         # 由小到大
-        df.sort_values(by=filter_columns, inplace=True)
+        if len(filter_columns) > 0:
+            df.sort_values(by=filter_columns, inplace=True)
+
+        print(f'filter_columns: {filter_columns}')
 
         result = df[self.columns]
+        #print(f'result: {result}')
+        
         # 重設index
         result.reset_index(drop=True, inplace=True)
 
