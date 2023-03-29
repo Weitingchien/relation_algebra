@@ -1,9 +1,20 @@
 # 資料庫系統 HW #1
 
+## 使用步驟
+
 > 1. 首先執行 main.py
 > 2. 執行後會在 D 槽建立一個 ra_cli 的資料夾，裡面有一個 ra 資料夾
 > 3. 把 sample 資料夾裡面的.csv 檔案都放進 ra 資料夾裡
 > 4. 開始用 SQL 語法
+
+> [requires]
+> python_version = "3.9"
+
+> [packages]
+> pandas = "_"
+> click-shell = "_"
+> click = "_"
+> numpy = "_"
 
 ## Bug 待處理
 
@@ -102,3 +113,19 @@ select customers.C_Id, orders.Order_No from customers cross join orders
 ### result:
 
 ![image](image/cartesian_product.PNG)
+
+## clear
+
+```
+clear
+```
+
+- 清除 terminal 內容
+
+## exit
+
+```
+exit
+```
+
+- 離開程式
