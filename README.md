@@ -15,6 +15,8 @@ select \* from classroom
 
 ## project
 
+正在新增
+
 ## rename
 
 修改 column 名稱: alter table classroom rename column building to building_a
@@ -34,4 +36,4 @@ select P_Name from products_taiwan except select P_Name from products_china
 
 ## cartesian_product
 
-待新增
+正在新增
