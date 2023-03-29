@@ -2,7 +2,7 @@ import pandas as pd
 from unary_operators.select import Select
 from binary_operators.set_union import Union
 
-
+# select P_Name FROM products_china except select P_Name FROM products_taiwan
 class Difference(Union):
     def __init__(self, columns_and_tablename, path, list_all_csv) -> None:
         super().__init__(columns_and_tablename, path, list_all_csv)

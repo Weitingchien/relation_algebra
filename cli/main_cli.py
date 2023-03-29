@@ -8,6 +8,7 @@ from unary_operators.rename import Rename
 from binary_operators.set_union import Union
 from binary_operators.set_difference import Difference
 from binary_operators.cartesian_product import Cartesian
+from binary_operators.set_intersection import Intersection
 
 
 
@@ -57,7 +58,7 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
 
     # 關鍵字轉小寫
     for index, val in enumerate(columns_and_tablename):
-        if val in ['TABLE', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN']:
+        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT']:
             columns_and_tablename[index] = val.lower()
 
     select = Select(columns_and_tablename, path, ctx.invoke(list_all_csv))
@@ -76,6 +77,13 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
         difference = Difference(columns_and_tablename, path, ctx.invoke(list_all_csv))
         click.echo(difference.data())
         return  
+    
+    elif 'intersect' in columns_and_tablename:
+        print('intersect')
+        intersection = Intersection(columns_and_tablename, path, ctx.invoke(list_all_csv))
+        click.echo(intersection.data())
+        return
+    
     elif 'cross' in columns_and_tablename:
         print('cross_join')
         cartesian = Cartesian(columns_and_tablename, path, ctx.invoke(list_all_csv))
@@ -90,6 +98,13 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
 @click.argument('columns_and_tablename', nargs=-1, type=str)
 @click.pass_context
 def alter_table_rename_columns(ctx, columns_and_tablename) -> None:
+
+    columns_and_tablename = list(columns_and_tablename)
+    # 關鍵字轉小寫
+    for index, val in enumerate(columns_and_tablename):
+        if val in ['TABLE', 'RENAME', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN', 'INTERSECT']:
+            columns_and_tablename[index] = val.lower()
+    
     rename = Rename(columns_and_tablename, path, ctx.invoke(list_all_csv))
     rename.alter_table()
     

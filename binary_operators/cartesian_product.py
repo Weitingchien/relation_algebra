@@ -89,31 +89,3 @@ class Cartesian(Union):
         result.columns = temp_result_columns
 
         return result
-
-
-
-
-
-
-
-
-
-
-
-        """
-        for index in range(2):
-            if index == 0:
-                select = Select(self.temp_first_table, self.path, self.list_all_csv)
-                self.df_first_table = select.data()
-            else:
-                select = Select(self.temp_second_table, self.path, self.list_all_csv)
-                self.df_second_table = select.data()
-
-        for i in self.df_first_table[self.df_first_table.columns[0]]:
-            self.set_first_table.add(i)
-        for i in self.df_second_table[self.df_second_table.columns[0]]:
-            self.set_second_table.add(i)
-        
-        result = self.set_first_table.union(self.set_second_table)
-        return pd.DataFrame({self.df_first_table.columns[0]: list(result)})
-        """

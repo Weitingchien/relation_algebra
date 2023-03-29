@@ -3,6 +3,8 @@ import os
 import click
 import pandas as pd
 
+# 更改column名稱: alter TABLE classroom RENAME COLUMN building TO building_a
+# 更改table名稱: alter TABLE classroom RENAME TO classroom_a
 class Rename:
     def __init__(self, columns_and_tablename, path, list_all_csv) -> None:
         self.list_all_csv = list_all_csv
@@ -15,6 +17,7 @@ class Rename:
         self.columns_and_tablename_filter()
     
     def alter_column(self) -> None:
+        print('alter_column')
         csv_file = [
             i for i in list(self.list_all_csv) if i == f'{self.old_table_name}.csv'
         ]
@@ -25,6 +28,9 @@ class Rename:
 
     
     def alter_table(self) -> None:
+        print('alter_table')
+        print(f'old_column_name: {self.old_column_name}')
+        print(f'new_column_name: {self.new_column_name}')
 
         if len(self.old_column_name) > 0 and len(self.new_column_name) > 0:
             self.alter_column()

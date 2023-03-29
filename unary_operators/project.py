@@ -2,6 +2,8 @@ import click
 import pandas as pd
 import operator
 
+
+# select building, room_number from classroom
 class Project:
     def __init__(self, df, condition, df_filter=None) -> None:
         self.df = df
