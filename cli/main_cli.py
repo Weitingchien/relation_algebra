@@ -7,6 +7,7 @@ from unary_operators.select import Select
 from unary_operators.rename import Rename
 from binary_operators.set_union import Union
 from binary_operators.set_difference import Difference
+from binary_operators.cartesian_product import Cartesian
 
 
 
@@ -54,9 +55,9 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
     columns_and_tablename = list(columns_and_tablename)
     print(f"columns_and_tablename: {columns_and_tablename}")
 
-    # 關鍵字元轉小寫
+    # 關鍵字轉小寫
     for index, val in enumerate(columns_and_tablename):
-        if val in ['TABLE', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION']:
+        if val in ['TABLE', 'COLUMN', 'TO', 'FROM', 'WHERE', 'UNION', 'EXCEPT', 'CROSS', 'JOIN']:
             columns_and_tablename[index] = val.lower()
 
     select = Select(columns_and_tablename, path, ctx.invoke(list_all_csv))
@@ -75,6 +76,11 @@ def select_columns_from_table(ctx, columns_and_tablename) -> None:
         difference = Difference(columns_and_tablename, path, ctx.invoke(list_all_csv))
         click.echo(difference.data())
         return  
+    elif 'cross' in columns_and_tablename:
+        print('cross_join')
+        cartesian = Cartesian(columns_and_tablename, path, ctx.invoke(list_all_csv))
+        click.echo(cartesian.data())
+        return
 
     result = select.data()
     if(isinstance(result, pd.DataFrame)):

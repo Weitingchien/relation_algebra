@@ -7,7 +7,7 @@ class Difference(Union):
     def __init__(self, columns_and_tablename, path, list_all_csv) -> None:
         super().__init__(columns_and_tablename, path, list_all_csv)
 
-    def classifier(self):
+    def classifier(self) -> None:
         for index, val in enumerate(self.columns_and_tablename):
             if val == 'from':
                 self.columns = self.columns_and_tablename[:index]
@@ -34,6 +34,7 @@ class Difference(Union):
             self.set_first_table.add(i)
         for i in self.df_second_table[self.df_second_table.columns[0]]:
             self.set_second_table.add(i)
-        
+
+        # 差集
         result = self.set_first_table.difference(self.set_second_table)
         return pd.DataFrame({self.df_first_table.columns[0]: list(result)})

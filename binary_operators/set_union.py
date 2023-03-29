@@ -44,7 +44,8 @@ class Union:
             self.set_first_table.add(i)
         for i in self.df_second_table[self.df_second_table.columns[0]]:
             self.set_second_table.add(i)
-        
+
+        # 聯集
         result = self.set_first_table.union(self.set_second_table)
         return pd.DataFrame({self.df_first_table.columns[0]: list(result)})
         
