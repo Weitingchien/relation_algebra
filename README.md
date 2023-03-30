@@ -114,6 +114,14 @@ select customers.C_Id, orders.Order_No from customers cross join orders
 
 ![image](image/cartesian_product.PNG)
 
+## show
+
+- 顯示 ra 資料夾裡面所有 csv 檔案的 Dataframe:
+
+```
+show_schema
+```
+
 ## clear
 
 ```

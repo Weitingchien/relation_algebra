@@ -42,7 +42,7 @@ def list_all_csv() -> tuple:
         for index, val in enumerate(files):
             if files[index].rsplit(".", 1)[1] == "csv":
                 csv_files.append(files[index])
-        print(f"root: {root} dirs: {dirs} files: {files} ")
+        #print(f"root: {root} dirs: {dirs} files: {files} ")
 
     csv_files = tuple(csv_files)
     click.echo(csv_files)
@@ -109,6 +109,19 @@ def alter_table_rename_columns(ctx, columns_and_tablename) -> None:
     rename.alter_table()
     
 
+
+@ra_cli.command(name="show_schema")
+@click.pass_context
+def show(ctx) -> None:
+    # 欄位名稱與值對齊
+    pd.set_option('display.unicode.ambiguous_as_wide', True)
+    pd.set_option('display.unicode.east_asian_width', True)
+
+    for i in ctx.invoke(list_all_csv):
+        df = pd.read_csv(os.path.join(path(), i))
+        click.echo(df)
+
+    
 
 
 @ra_cli.command(name="clear")
